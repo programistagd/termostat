@@ -1,12 +1,14 @@
 #include "header.hpp"
+#include "ds18x20.h"
 
 inline void updateThermometer(){
-   //TODO
-   static uint8_t p=0;
-   if(p==0){
-      current_temperature=(current_temperature+1)%1000;//simulation for now
-      p=2;
+   static uint16_t timeout=0;
+   if(timeout==0){
+      timeout=1000/5;
+      DS18X20_start_meas( DS18X20_POWER_PARASITE, NULL );
+      _delay_ms( DS18B20_TCONV_12BIT );
+      DS18X20_read_decicelsius_single(DS18B20_FAMILY_CODE, &current_temperature);
+   }else{
+      timeout--;
    }
-   else
-      p--;
 }

@@ -6,8 +6,8 @@
 #include <util/delay.h>
 
 ///PROGRAM STATE VARIABLES
-uint16_t wanted_temperature = 500;//0-1250, in deci-Celsius
-uint16_t current_temperature = 500;
+int16_t wanted_temperature = 500;//0-1250, in deci-Celsius
+int16_t current_temperature = 500;
 
 bool showWanted = false;//by default show thermometer readout
 

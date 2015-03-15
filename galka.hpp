@@ -13,7 +13,7 @@ inline uint8_t read_gray_code_from_encoder(){
 //EVENTS
 inline void onGalkaRotated(uint8_t dv){//can be inlined as it's only one OP
    wanted_temperature+=10*dv;//overflow & underflow will take care of keeping it in range
-   wanted_temperature%=1000;
+   wanted_temperature = (wanted_temperature+1000)%1000;
 }
 
 //LOOP
