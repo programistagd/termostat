@@ -3,12 +3,19 @@
 #include "display.hpp"
 #include "thermometer.hpp"
 
+///PROGRAM STATE VARIABLES
+int16_t wanted_temperature = 500;//0-1250, in deci-Celsius
+int16_t current_temperature = 500;
+bool digit=false;//if false it's last digit, if true it's first digit
+bool showWanted = false;//by default show thermometer readout
+
+
 inline void updateGrzalka(){
    if(current_temperature>wanted_temperature+5){
-      //grzalka off
+      PORTD |= (1<<PD5);
    }
    if(current_temperature<wanted_temperature-5){
-      //grzalka on
+      PORTD &= ~(1<<PD5);
    }
 }
 
@@ -21,10 +28,10 @@ int main(void)
    PORTD |= (1 << PD3)|(1 << PD2);//PD2 and PD3 pull-up enabled   */
 
    //termometr
-   //1-wire
+   //1-wire done in lib
 
    //grzalka
-   //output
+   DDRD |= (1<<PD5);//output
 
    //display
    DDRB = 0b11111111;//all PORTB pins are output, number display

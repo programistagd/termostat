@@ -23,8 +23,6 @@
 */
 
 
-bool digit=false;//if false it's last digit, if true it's first digit
-
 inline uint8_t getNumber(){
    uint8_t displayedNumber = (showWanted?wanted_temperature:current_temperature)/10;
    if(digit) return displayedNumber/10;
@@ -39,7 +37,7 @@ inline uint8_t getNumber(){
 #define F (1<<PB5)
 #define G (1<<PB6)
 
-inline uint8_t getPins(uint8_t number){
+inline uint8_t getPins(uint8_t number){//TODO array
    switch(number){
       case 0:  return B|C|D|E|F|G;
       case 1:  return D|F;
@@ -53,6 +51,18 @@ inline uint8_t getPins(uint8_t number){
       case 9:  return A|B|D|E|F|G;
       default: return 0;
    }
+}
+
+uint8_t showError(){
+   PORTD &= ~((1 << PD0)|(1 << PD1));//at start turn them off
+   PORTB = A|B|C|E|G;
+   PORTD |= (1<<PD0);
+}
+
+uint8_t showMeasurement(){
+   PORTD &= ~((1 << PD0)|(1 << PD1));//at start turn them off
+   PORTB = A;
+   PORTD |= (1<<PD0);
 }
 
 #undef A

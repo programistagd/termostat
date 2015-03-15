@@ -37,7 +37,7 @@ changelog:
    input/ouput: diff is the result of the last rom-search
                 *diff = OW_SEARCH_FIRST for first call
    output: id is the rom-code of the sensor found */
-uint8_t DS18X20_find_sensor( uint8_t *diff, uint8_t id[] )
+/*uint8_t DS18X20_find_sensor( uint8_t *diff, uint8_t id[] )
 {
 	uint8_t go;
 	uint8_t ret;
@@ -59,12 +59,12 @@ uint8_t DS18X20_find_sensor( uint8_t *diff, uint8_t id[] )
 	} while (go);
 
 	return ret;
-}
+}*/
 
 /* get power status of DS18x20
    input:   id = rom_code
    returns: DS18X20_POWER_EXTERN or DS18X20_POWER_PARASITE */
-uint8_t DS18X20_get_power_status( uint8_t id[] )
+/*uint8_t DS18X20_get_power_status( uint8_t id[] )
 {
 	uint8_t pstat;
 
@@ -73,7 +73,7 @@ uint8_t DS18X20_get_power_status( uint8_t id[] )
 	pstat = ow_bit_io( 1 );
 	ow_reset();
 	return ( pstat ) ? DS18X20_POWER_EXTERN : DS18X20_POWER_PARASITE;
-}
+}*/
 
 /* start measurement (CONVERT_T) for all sensors if input id==NULL
    or for single sensor where id is the rom-code */
@@ -201,7 +201,7 @@ static int16_t DS18X20_raw_to_decicelsius( uint8_t familycode, uint8_t sp[] )
    by code from Chris Takahashi for the MSP430 libc, BSD-license
    modifications mthomas: variable-types, fixed radix 10, use div(),
    insert decimal-point */
-uint8_t DS18X20_format_from_decicelsius( int16_t decicelsius, char str[], uint8_t n)
+/*uint8_t DS18X20_format_from_decicelsius( int16_t decicelsius, char str[], uint8_t n)
 {
 	uint8_t sign = 0;
 	char temp[7];
@@ -248,11 +248,11 @@ uint8_t DS18X20_format_from_decicelsius( int16_t decicelsius, char str[], uint8_
 
 	return ret;
 }
-
+*/
 /* reads temperature (scratchpad) of sensor with rom-code id
    output: decicelsius
    returns DS18X20_OK on success */
-uint8_t DS18X20_read_decicelsius( uint8_t id[], int16_t *decicelsius )
+/*uint8_t DS18X20_read_decicelsius( uint8_t id[], int16_t *decicelsius )
 {
 	uint8_t sp[DS18X20_SP_SIZE];
 	uint8_t ret;
@@ -263,7 +263,7 @@ uint8_t DS18X20_read_decicelsius( uint8_t id[], int16_t *decicelsius )
 		*decicelsius = DS18X20_raw_to_decicelsius( id[0], sp );
 	}
 	return ret;
-}
+}*/
 
 /* reads temperature (scratchpad) of sensor without id (single sensor)
    output: decicelsius
@@ -282,7 +282,7 @@ uint8_t DS18X20_read_decicelsius_single( uint8_t familycode, int16_t *decicelsiu
 
 #endif /* DS18X20_DECICELSIUS */
 
-
+/*
 #if DS18X20_MAX_RESOLUTION
 
 static int32_t DS18X20_raw_to_maxres( uint8_t familycode, uint8_t sp[] )
@@ -296,7 +296,7 @@ static int32_t DS18X20_raw_to_maxres( uint8_t familycode, uint8_t sp[] )
 	//measure = 0xFE6F; // test -25.0625
 
 	if( familycode == DS18S20_FAMILY_CODE ) {   // 9 -> 12 bit if 18S20
-		/* Extended measurements for DS18S20 contributed by Carsten Foss */
+		// Extended measurements for DS18S20 contributed by Carsten Foss
 		measure &= (uint16_t)0xfffe;   // Discard LSB, needed for later extended precicion calc
 		measure <<= 3;                 // Convert to 12-bit, now degrees are in 1/16 degrees units
 		measure += ( 16 - sp[6] ) - 4; // Add the compensation and remember to subtract 0.25 degree (4/16)
@@ -417,4 +417,5 @@ uint8_t DS18X20_format_from_maxres( int32_t temperaturevalue, char str[], uint8_
 	return ret;
 }
 
-#endif /* DS18X20_MAX_RESOLUTION */
+#endif // DS18X20_MAX_RESOLUTION
+*/
