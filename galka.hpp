@@ -13,11 +13,13 @@ inline uint8_t read_gray_code_from_encoder(){
 //EVENTS
 inline void onGalkaRotated(uint8_t dv){//can be inlined as it's only one OP
    wanted_temperature+=10*dv;//overflow & underflow will take care of keeping it in range
+   wanted_temperature%=1000;
 }
 
 //LOOP
 inline void checkGalka(){
    static uint8_t oldValue = 0;
+   static uint8_t buttonTimeout = 0;
    uint8_t newValue = read_gray_code_from_encoder();
    if(newValue!=oldValue){
       if( /*(val==2 && val_tmp==3) ||*/(oldValue==3 && newValue==1) ||/*(val==1 && val_tmp==0) ||*/(oldValue==0 && newValue==2))
@@ -26,9 +28,10 @@ inline void checkGalka(){
          onGalkaRotated(-1);
       oldValue=newValue;
    }
-   //TODO check button
-   if(!bit_is_clear(PIND, PD4)){
+   //check button
+   if(buttonTimeout>0) buttonTimeout--;
+   else if(!bit_is_clear(PIND, PD4)){
       showWanted=!showWanted;//toggle
-      _delay_ms(500);
+      buttonTimeout=50;
    }
 }

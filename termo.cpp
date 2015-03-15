@@ -4,8 +4,11 @@
 #include "thermometer.hpp"
 
 inline void updateGrzalka(){
-   if(current_temperature>wanted_temperature){
-
+   if(current_temperature>wanted_temperature+5){
+      //grzalka off
+   }
+   if(current_temperature<wanted_temperature-5){
+      //grzalka on
    }
 }
 
@@ -36,7 +39,7 @@ int main(void)
       updateDisplay();
       updateGrzalka();
 
-      _delay_ms(100);
+      _delay_ms(5);
    }
 
    return 0;

@@ -1,5 +1,28 @@
 #include "header.hpp"
 
+/*PINOUT
+   1-5
+   8.8.
+   6-10
+   1-PB6
+   2-PB5
+   3-PD0
+   4-PD1
+   5-PB4
+   6-PB3
+   7-PB7
+   8-PB2
+   9-PB1
+   10-PB0
+   8=
+    G
+   E F
+    A
+   C D
+    B
+*/
+
+
 bool digit=false;//if false it's last digit, if true it's first digit
 
 inline uint8_t getNumber(){
@@ -8,21 +31,37 @@ inline uint8_t getNumber(){
    return displayedNumber%10;
 }
 
+#define A (1<<PB0)
+#define B (1<<PB1)
+#define C (1<<PB2)
+#define D (1<<PB3)
+#define E (1<<PB4)
+#define F (1<<PB5)
+#define G (1<<PB6)
+
 inline uint8_t getPins(uint8_t number){
    switch(number){
-      case 0:  return 0b00000001;//TODO
-      case 1:  return 0b00000010;
-      case 2:  return 0b00000100;
-      case 3:  return 0b00001000;
-      case 4:  return 0b00010000;
-      case 5:  return 0b00100000;
-      case 6:  return 0b01000000;
-      case 7:  return 0b00000011;
-      case 8:  return 0b00010100;
-      case 9:  return 0b00101000;
+      case 0:  return B|C|D|E|F|G;
+      case 1:  return D|F;
+      case 2:  return A|B|C|F|G;
+      case 3:  return A|B|D|F|G;
+      case 4:  return A|D|E|F;
+      case 5:  return A|B|D|E|G;
+      case 6:  return A|B|C|D|E|G;
+      case 7:  return D|F|G;
+      case 8:  return A|B|C|D|E|F|G;
+      case 9:  return A|B|D|E|F|G;
       default: return 0;
    }
 }
+
+#undef A
+#undef B
+#undef C
+#undef D
+#undef E
+#undef F
+#undef G
 
 inline void updateDisplay(){
    PORTD &= ~((1 << PD0)|(1 << PD1));//at start turn them off
