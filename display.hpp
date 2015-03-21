@@ -37,31 +37,25 @@ inline uint8_t getNumber(){
 #define F (1<<PB5)
 #define G (1<<PB6)
 
-inline uint8_t getPins(uint8_t number){//TODO array
-   switch(number){
-      case 0:  return B|C|D|E|F|G;
-      case 1:  return D|F;
-      case 2:  return A|B|C|F|G;
-      case 3:  return A|B|D|F|G;
-      case 4:  return A|D|E|F;
-      case 5:  return A|B|D|E|G;
-      case 6:  return A|B|C|D|E|G;
-      case 7:  return D|F|G;
-      case 8:  return A|B|C|D|E|F|G;
-      case 9:  return A|B|D|E|F|G;
-      default: return 0;
-   }
-}
+uint8_t pins[13] = {
+   B|C|D|E|F|G,
+   D|F,
+   A|B|C|F|G,
+   A|B|D|F|G,
+   A|D|E|F,
+   A|B|D|E|G,
+   A|B|C|D|E|G,
+   D|F|G,
+   A|B|C|D|E|F|G,
+   A|B|D|E|F|G,
+   A|B|C|E|G,
+   A,
+   B|C|E|G,
+};
 
-uint8_t showError(){
+uint8_t show(uint8_t digit){
    PORTD &= ~((1 << PD0)|(1 << PD1));//at start turn them off
-   PORTB = A|B|C|E|G;
-   PORTD |= (1<<PD0);
-}
-
-uint8_t showMeasurement(){
-   PORTD &= ~((1 << PD0)|(1 << PD1));//at start turn them off
-   PORTB = A;
+   PORTB = pins;
    PORTD |= (1<<PD0);
 }
 
@@ -81,7 +75,8 @@ inline void updateDisplay(){
    //update which digit
    if(!digit)   PORTD |= (1<<PD0);//swapped
    else        PORTD |= (1<<PD1);
-   PORTB = getPins(number);//set displayed digit
+   if(number<10)
+      PORTB = pins[number];//set displayed digit
    if(showWanted){
       PORTB |= (1<<PB7);//set dot
    }
