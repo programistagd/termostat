@@ -7,36 +7,7 @@ inline void updateThermometer(){
    if(timeout==0){
       timeout=2000/5;
       show(11);
-      //uint8_t status;
-      uint8_t temperature[2];
-      int8_t digit;
-      uint16_t decimal;
-
-      //ready = 0;
-
-      ow_reset();
-      ow_byte_wr(0xCC);//skip rom
-      ow_byte_wr(0x44);
-      /*do
-      {
-         ready = w1_write(0x44);//convert temp
-      }while(ready=!1); //wait for temp convert*/
-      _delay_ms(760);
-      ow_reset();
-      ow_byte_wr(0xCC);//skip rom
-      ow_byte_wr(0xbe);//read scratchpad - ONLY 2 FIRST BYTES
-      temperature[0]=ow_byte_rd();
-      temperature[1]=ow_byte_rd();
-      ow_reset();
-      //Store temperature integer digits and decimal digits
-      digit=temperature[0]>>4;
-      digit|=(temperature[1]&0x7)<<4;
-      //Store decimal digits
-      decimal=temperature[0]&0xf;
-      decimal*=625;
-      //Format temperature into a string [+XXX.XXXX C]
-      //sprintf(buffer, "%+d.%04u\xdfC", digit, decimal);
-      current_temperature = (digit*10)%1000;//TODO decimal
+      current_temperature = ds18b20_gettemp();
    }else{
       timeout--;
    }
