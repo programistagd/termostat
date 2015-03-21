@@ -12,10 +12,10 @@ bool showWanted = false;//by default show thermometer readout
 
 inline void updateGrzalka(){
    if(current_temperature>wanted_temperature+5){
-      PORTD |= (1<<PD5);
+      PORTD &= ~(1<<PD5);
    }
    if(current_temperature<wanted_temperature-5){
-      PORTD &= ~(1<<PD5);
+      PORTD |= (1<<PD5);
    }
 }
 
@@ -38,6 +38,8 @@ int main(void)
    PORTB = 0;//initially turn off all
    DDRD |= (1 << PD0) | (1 << PD1);//multiplexer
    PORTD &= ~((1 << PD0)|(1 << PD1));//at start turn them off
+
+   //DS18X20_start_meas( DS18X20_POWER_EXTERN, NULL );
 
    while(1)
    {

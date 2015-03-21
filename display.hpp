@@ -38,24 +38,24 @@ inline uint8_t getNumber(){
 #define G (1<<PB6)
 
 uint8_t pins[13] = {
-   B|C|D|E|F|G,
-   D|F,
-   A|B|C|F|G,
+   B|C|D|E|F|G,//0
+   D|F,//1
+   A|B|C|F|G,//...
    A|B|D|F|G,
    A|D|E|F,
    A|B|D|E|G,
    A|B|C|D|E|G,
    D|F|G,
    A|B|C|D|E|F|G,
-   A|B|D|E|F|G,
-   A|B|C|E|G,
-   A,
-   B|C|E|G,
+   A|B|D|E|F|G,//9
+   A|B|C|E|G,//E
+   A,//-
+   B|C|E|G,//C
 };
 
 uint8_t show(uint8_t digit){
    PORTD &= ~((1 << PD0)|(1 << PD1));//at start turn them off
-   PORTB = pins;
+   PORTB = pins[digit];
    PORTD |= (1<<PD0);
 }
 

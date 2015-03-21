@@ -115,6 +115,7 @@ static uint8_t read_scratchpad( uint8_t id[], uint8_t sp[], uint8_t n )
 	for ( i = 0; i < n; i++ ) {
 		sp[i] = ow_byte_rd();
 	}
+
 	if ( crc8( &sp[0], DS18X20_SP_SIZE ) ) {
 		ret = DS18X20_ERROR_CRC;
 	} else {
