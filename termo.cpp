@@ -40,7 +40,7 @@ int main(void)
    PORTD &= ~((1 << PD0)|(1 << PD1));//at start turn them off
 
    //DS18X20_start_meas( DS18X20_POWER_EXTERN, NULL );
-
+   start_reading();
    while(1)
    {
       checkGalka();

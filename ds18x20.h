@@ -45,6 +45,8 @@ http://teslabs.com/openplayer/docs/docs/other/ds18b20_pre1.pdf
 #define DS18B20_DECIMALSTEPS DS18B20_DECIMALSTEPS_12BIT
 
 //functions
-extern int16_t ds18b20_gettemp();
+//extern int16_t ds18b20_gettemp();
+void start_reading();
+bool try_reading(int16_t& out_temp);
 
 #endif

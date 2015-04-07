@@ -3,13 +3,16 @@
 #include "onewire.h"
 
 inline void updateThermometer(){
-   static uint16_t timeout=0;
+   /*static uint16_t timeout=0;
    if(timeout==0){
       timeout=2000/5;
       show(11);
       current_temperature = ds18b20_gettemp();
    }else{
       timeout--;
+   }*/
+   if(try_reading(current_temperature)){
+      start_reading();
    }
 }
 /*inline void updateThermometer(){

@@ -100,20 +100,18 @@ void ds18b20_writebit(uint8_t bit){
 			return n;
 		}
 
-		/*
-		* get temperature
-		*/
-		int16_t ds18b20_gettemp() {
-			uint8_t temperature[2];
-			int8_t digit;
-			uint16_t decimal;
-			int16_t retd = 0;
-
+		void start_reading(){
 			ds18b20_reset(); //reset
 			ds18b20_writebyte(DS18B20_CMD_SKIPROM); //skip ROM
 			ds18b20_writebyte(DS18B20_CMD_CONVERTTEMP); //start temperature conversion
+		}
 
-			while(!ds18b20_readbit()); //wait until conversion is complete
+		bool try_reading(int16_t& out_temp){
+			uint8_t temperature[2];
+			int8_t digit;
+			uint16_t decimal;
+
+			if(!ds18b20_readbit()) return false;
 
 				ds18b20_reset(); //reset
 				ds18b20_writebyte(DS18B20_CMD_SKIPROM); //skip ROM
@@ -134,7 +132,41 @@ void ds18b20_writebit(uint8_t bit){
 				decimal *= DS18B20_DECIMALSTEPS;
 
 				//compose the double temperature value and return it
-				retd = digit *10 + decimal/1000;
+				out_temp = digit *10 + decimal/1000;
+				return true;
+		}
+/*int16_t ds18b20_gettemp() {
+uint8_t temperature[2];
+int8_t digit;
+uint16_t decimal;
+int16_t retd = 0;
 
-				return retd;
-			}
+ds18b20_reset(); //reset
+ds18b20_writebyte(DS18B20_CMD_SKIPROM); //skip ROM
+ds18b20_writebyte(DS18B20_CMD_CONVERTTEMP); //start temperature conversion
+
+while(!ds18b20_readbit()); //wait until conversion is complete
+
+ds18b20_reset(); //reset
+ds18b20_writebyte(DS18B20_CMD_SKIPROM); //skip ROM
+ds18b20_writebyte(DS18B20_CMD_RSCRATCHPAD); //read scratchpad
+
+//read 2 byte from scratchpad
+temperature[0] = ds18b20_readbyte();
+temperature[1] = ds18b20_readbyte();
+
+ds18b20_reset(); //reset
+
+//store temperature integer digits
+digit = temperature[0]>>4;
+digit |= (temperature[1]&0x7)<<4;
+
+//store temperature decimal digits
+decimal = temperature[0]&0xf;
+decimal *= DS18B20_DECIMALSTEPS;
+
+//compose the double temperature value and return it
+retd = digit *10 + decimal/1000;
+
+return retd;
+}*/
